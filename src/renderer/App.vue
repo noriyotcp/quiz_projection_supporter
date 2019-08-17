@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'quiz_projection_supporter'
-  }
+export default {
+  name: 'QuizProjectionSupporter'
+}
 </script>
 
 <style>
