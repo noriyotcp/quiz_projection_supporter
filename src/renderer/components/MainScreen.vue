@@ -62,7 +62,7 @@
 import QuestionCard from './MainScreen/QuestionCard'
 
 export default {
-  name: 'LandingPage',
+  name: 'MainScreen',
   components: { QuestionCard },
   methods: {
     open (link) {
