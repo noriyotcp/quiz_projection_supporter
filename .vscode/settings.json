@@ -1,5 +1,4 @@
 {
-  "eslint.autoFixOnSave": true,
   "eslint.packageManager": "yarn",
   "prettier.semi": false
 }
