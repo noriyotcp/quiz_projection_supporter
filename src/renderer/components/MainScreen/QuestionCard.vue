@@ -14,11 +14,35 @@
 
 <script>
 export default {
+  // title: String, qData: Object, qTextSummary: Boolean
+  props: ['title', 'qData', 'qTextSummary'],
   data () {
     return {
       qIdLabel: '---',
       qTextLabel: '---',
       qAnswerLabel: '---'
+    }
+  },
+  watch: {
+    qData: function () {
+      if (this.qData == null) {
+        this.qIdLabel = '---'
+        this.qTextLabel = '---'
+        this.qAnswerLabel = '---'
+      } else {
+        this.qIdLabel = this.qData.qId.toString()
+        this.qTextLabel = this.qTextSummary ? this.getSubstringText(this.qData.qText, 8) : this.getSubstringText(this.qData.qText, 50)
+        this.qAnswerLabel = this.qTextSummary ? this.getSubstringText(this.qData.qAnswer, 8) : this.getSubstringText(this.qData.qAnswer, 50)
+      }
+    }
+  },
+  methods: {
+    getSubstringText (target, length) {
+      if (target.length > length) {
+        return target.substr(0, length) + '...'
+      } else {
+        return target
+      }
     }
   }
 }

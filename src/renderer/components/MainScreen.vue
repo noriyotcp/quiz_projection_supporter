@@ -1,60 +1,156 @@
 <template>
-  <div id="wrapper">
+  <div>
+    <!-- Navigation Bar -->
+    <div class="container-flued">
+      <b-navbar
+        toggleable="md"
+        type="dark"
+        variant="secondary"
+      >
+        <b-navbar-nav>
+          <!-- TODO: add event handler -->
+          <b-nav-item href="#">
+            投影画面を{{ (pjWindow == null) ? '開く' : '閉じる' }}
+          </b-nav-item>
+          <b-nav-item-dropdown text="設定">
+            <b-dropdown-item
+              v-b-modal.importQuizDataDialog
+              href="#"
+            >
+              問題データを読み込む
+            </b-dropdown-item>
+            <b-dropdown-item
+              v-b-modal.projectionSettingDialog
+              href="#"
+            >
+              投影画面設定
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-navbar>
+    </div>
+
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-8">
-          <question-card title="現在表示中" />
+          <question-card
+            title="現在表示中"
+            :q-data="displayedQuizData"
+          />
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="toUpTriangle">
+          ▲▲▲
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <question-card
+            title="ひとつ前"
+            q-text-summary="true"
+            :q-data="prevQuezData"
+          />
+        </div>
+
+        <div class="col-6 align-self-center">
+          <question-card
+            tile="表示候補"
+            :q-data="candidateQuizData"
+          />
+        </div>
+
+        <div class="col-3">
+          <question-card
+            title="ひとつ次"
+            q-text-summary="true"
+            :q-data="nextQuizData"
+          />
+        </div>
+      </div>
+
+      <div class="row justify-content-center buttonArea">
+        <div class="col-3">
+          <!-- TODO: click handler -->
+          <b-button
+            size="lg"
+            variant="outline-secondary"
+            block
+          >
+            ＜＜ 前
+          </b-button>
+        </div>
+
+        <div class="col-6">
+          <p>
+            <b-button
+              v-b-modal.displayConfirmDialog
+              size="lg"
+              variant="primary"
+              block
+              :disabled="(candidateQuizData == null)"
+            >
+              投影画面へ表示
+            </b-button>
+          </p>
+          <p class="text-center">
+            <!-- TODO: click handler -->
+            <b-button
+              size="lg"
+              variant="outline-secondary"
+            >
+              投影画面の表示を消す
+            </b-button>
+            <b-button
+              v-b-modal.selectQuestionIdDialog
+              size="lg"
+              variant="outline-secondary"
+            >
+              問題IDで選択
+            </b-button>
+          </p>
+          <div class="form-inline">
+            <b-form-checkbox
+              v-model="isDisplayAnotherAnswers"
+              size="lg"
+            >
+              別解を表示
+            </b-form-checkbox>
+            <b-form-checkbox
+              v-model="isDisplayQId"
+              size="lg"
+            >
+              問題IDを表示
+            </b-form-checkbox>
+            <b-form-checkbox
+              v-model="isLoopSelection"
+              v-b-tooltip.hover
+              size="lg"
+              title="最初と最後の問題の間を[<<前][次>>]ボタンで行き来できるようにします"
+            >
+              問題選択をループする
+            </b-form-checkbox>
+          </div>
+        </div>
+
+        <div class="col-3">
+          <!-- TODO: click handler -->
+          <b-button
+            size="lg"
+            variant="outline-secondary"
+            block
+          >
+            次 ＞＞
+          </b-button>
         </div>
       </div>
     </div>
-    <img
-      id="logo"
-      src="~@/assets/logo.png"
-      alt="electron-vue"
-    >
-    <main>
-      <div class="left-side">
-        <span class="title">Welcome to your new project!</span>
-        <system-information />
-      </div>
 
-      <div class="right-side">
-        <div class="doc">
-          <div class="title">
-            Getting Started
-          </div>
-          <p>
-            electron-vue comes packed with detailed documentation that covers everything from
-            internal configurations, using the project structure, building your application,
-            and so much more.
-          </p>
-          <button
-            @click="open('https://simulatedgreg.gitbooks.io/electron-vue/content/')"
-          >
-            Read the Docs
-          </button>
-          <br>
-          <br>
-        </div>
-        <div class="doc">
-          <div class="title alt">
-            Other Documentation
-          </div>
-          <button
-            class="alt"
-            @click="open('https://electron.atom.io/docs/')"
-          >
-            Electron
-          </button>
-          <button
-            class="alt"
-            @click="open('https://vuejs.org/v2/guide/')"
-          >
-            Vue.js
-          </button>
-        </div>
-      </div>
-    </main>
+    <div class="container">
+      <!-- TODO dialogs -->
+    </div>
   </div>
 </template>
 
@@ -64,6 +160,21 @@ import QuestionCard from './MainScreen/QuestionCard'
 export default {
   name: 'MainScreen',
   components: { QuestionCard },
+  data () {
+    return {
+      pjWindow: null,
+      quizData: null,
+      currentQuizDataIdx: 0,
+      displayedQuizData: null,
+      candidateQuizData: null,
+      nextQuizData: null,
+      prevQuezData: null,
+      isDisplayAnotherAnswers: false,
+      isDisplayQId: false,
+      isLoopSelection: false,
+      dialogMsg: null
+    }
+  },
   methods: {
     open (link) {
       this.$electron.shell.openExternal(link)
@@ -73,88 +184,10 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: "Source Sans Pro", sans-serif;
-}
-
-#wrapper {
-  background: radial-gradient(
-    ellipse at top left,
-    rgba(255, 255, 255, 1) 40%,
-    rgba(229, 229, 229, 0.9) 100%
-  );
-  height: 100vh;
-  padding: 60px 80px;
-  width: 100vw;
-}
-
-#logo {
-  height: auto;
-  margin-bottom: 20px;
-  width: 420px;
-}
-
-main {
-  display: flex;
-  justify-content: space-between;
-}
-
-main > div {
-  flex-basis: 50%;
-}
-
-.left-side {
-  display: flex;
-  flex-direction: column;
-}
-
-.welcome {
-  color: #555;
-  font-size: 23px;
-  margin-bottom: 10px;
-}
-
-.title {
-  color: #2c3e50;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-
-.title.alt {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.doc p {
-  color: black;
-  margin-bottom: 10px;
-}
-
-.doc button {
-  font-size: 0.8em;
-  cursor: pointer;
-  outline: none;
-  padding: 0.75em 2em;
-  border-radius: 2em;
-  display: inline-block;
-  color: #fff;
-  background-color: #4fc08d;
-  transition: all 0.15s ease;
-  box-sizing: border-box;
-  border: 1px solid #4fc08d;
-}
-
-.doc button.alt {
-  color: #42b983;
-  background-color: transparent;
-}
+  .toUpTriangle {
+    font-size: 200%;
+  }
+  .buttonArea {
+    margin-top: 20px;
+  }
 </style>
