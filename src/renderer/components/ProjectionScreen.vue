@@ -1,27 +1,30 @@
 <template>
   <div class="pjBase">
     <div class="container-flued">
-      <b-card class="qTextCard">
-        <p class="card-text">
-          {{qText}}
+      <b-card
+        class="qTextCard"
+        :style="{ backgroundColor: qBackgroundColor }"
+      >
+        <p
+          class="card-text"
+          :style="{ fontSize: qTextFontSize + 'px', color: qStringColor }"
+        >
+          {{ qText }}
         </p>
       </b-card>
 
       <div class="qAnswerArea">
         <b-card>
-          <p class="card-text">
-
-          </p>
+          <p class="card-text" />
         </b-card>
 
         <b-card class="qAnotherAnswerCard">
           <p class="card-text">
-            {{qAnotherAnswer}}
+            {{ qAnotherAnswer }}
           </p>
         </b-card>
       </div>
     </div>
-
   </div>
 </template>
 

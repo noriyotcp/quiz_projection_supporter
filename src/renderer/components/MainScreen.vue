@@ -8,8 +8,10 @@
         variant="secondary"
       >
         <b-navbar-nav>
-          <!-- TODO: add event handler -->
-          <b-nav-item href="#">
+          <b-nav-item
+            href="#"
+            @click="onClickProjectionScreenLink"
+          >
             投影画面を{{ (pjWindow == null) ? '開く' : '閉じる' }}
           </b-nav-item>
           <b-nav-item-dropdown text="設定">
@@ -156,6 +158,7 @@
 
 <script>
 import QuestionCard from './MainScreen/QuestionCard'
+import WindowUtil from '../logic/WindowUtil'
 
 export default {
   name: 'MainScreen',
@@ -176,6 +179,25 @@ export default {
     }
   },
   methods: {
+    onClickProjectionScreenLink () {
+      if (this.pjWindow == null) {
+        const targetHref = this.$router.resolve('projection').href
+        const option = {
+          width: 1280,
+          height: 720,
+          autoHideMenuBar: true
+        }
+        this.pjWindow = WindowUtil.openWindow(targetHref, option)
+        this.pjWindow.on('closed', () => {
+          // When close the window, set null to this.pjWindow
+          this.pjWindow = null
+        })
+      } else {
+        // If the window is open when clicking a link, close the window
+        this.pjWindow.close()
+        this.pjWindow = null
+      }
+    },
     open (link) {
       this.$electron.shell.openExternal(link)
     }
