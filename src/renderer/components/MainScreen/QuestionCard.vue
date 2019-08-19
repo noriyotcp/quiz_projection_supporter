@@ -14,8 +14,11 @@
 
 <script>
 export default {
-  // title: String, qData: Object, qTextSummary: Boolean
-  props: ['title', 'qData', 'qTextSummary'],
+  props: {
+    title: String,
+    qData: Object,
+    qTextSummary: String
+  },
   data () {
     return {
       qIdLabel: '---',
