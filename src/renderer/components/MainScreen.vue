@@ -80,6 +80,7 @@
             size="lg"
             variant="outline-secondary"
             block
+            @click="onClickPrevBtn()"
           >
             ＜＜ 前
           </b-button>
@@ -98,7 +99,6 @@
             </b-button>
           </p>
           <p class="text-center">
-            <!-- TODO: click handler -->
             <b-button
               size="lg"
               variant="outline-secondary"
@@ -138,11 +138,11 @@
         </div>
 
         <div class="col-3">
-          <!-- TODO: click handler -->
           <b-button
             size="lg"
             variant="outline-secondary"
             block
+            @click="onClickNextBtn()"
           >
             次 ＞＞
           </b-button>
@@ -214,6 +214,17 @@ export default {
         this.pjWindow.close()
         this.pjWindow = null
       }
+    },
+    // onClickDisableQuestionBtn () {
+
+    // },
+    onClickNextBtn () {
+      this.currentQuizDataIdx = QuizDataUtil.getNextIdx(this.quizDatas, this.currentQuizDataIdx, this.isLoopSelection)
+      this.updateQuizSelectCards()
+    },
+    onClickPrevBtn () {
+      this.currentQuizDataIdx = QuizDataUtil.getPrevIdx(this.quizDatas, this.currentQuizDataIdx, this.isLoopSelection)
+      this.updateQuizSelectCards()
     },
     updateQuizSelectCards () {
       this.candidateQuizData = QuizDataUtil.getQuizDataByIdx(this.quizDatas, this.currentQuizDataIdx)

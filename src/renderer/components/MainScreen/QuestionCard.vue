@@ -6,6 +6,9 @@
       class="qCard"
     >
       <p class="card-text">
+        {{ qTextLabel }}
+      </p>
+      <p class="card-text">
         {{ qAnswerLabel }}
       </p>
     </b-card>
