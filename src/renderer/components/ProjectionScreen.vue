@@ -38,6 +38,22 @@ export default {
       qAnotherAnswer: '',
       isDisplayAnotherAnswers: false
     }
+  },
+  mounted: function () {
+    const ipc = this.$electron.ipcRenderer
+    ipc.on('displayQuizData', (event, arg) => {
+      if (arg != null) {
+        this.qId = arg.qId
+        this.qText = arg.qText
+        this.qAnswer = arg.qAnswer
+        this.qAnotherAnswer = arg.qAnotherAnswer
+      } else {
+        this.qId = ''
+        this.qText = ''
+        this.qAnswer = ''
+        this.qAnotherAnswer = ''
+      }
+    })
   }
 }
 </script>

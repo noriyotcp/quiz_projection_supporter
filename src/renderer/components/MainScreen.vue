@@ -198,6 +198,11 @@ export default {
         this.pjWindow = null
       }
     },
+    sendMessageToPjWindow (channel, arg) {
+      if (this.pjWindow != null) {
+        this.pjWindow.webContents.send(channel, arg)
+      }
+    },
     open (link) {
       this.$electron.shell.openExternal(link)
     }
