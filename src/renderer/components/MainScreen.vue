@@ -101,6 +101,7 @@
             <b-button
               size="lg"
               variant="outline-secondary"
+              @click="onClickDisableQuestionBtn()"
             >
               投影画面の表示を消す
             </b-button>
@@ -218,9 +219,10 @@ export default {
         this.pjWindow = null
       }
     },
-    // onClickDisableQuestionBtn () {
-
-    // },
+    onClickDisableQuestionBtn () {
+      this.displayedQuizData = null
+      this.sendMessageToPjWindow('displayQuizData', this.displayedQuizData)
+    },
     onClickNextBtn () {
       this.currentQuizDataIdx = QuizDataUtil.getNextIdx(this.quizDatas, this.currentQuizDataIdx, this.isLoopSelection)
       this.updateQuizSelectCards()
