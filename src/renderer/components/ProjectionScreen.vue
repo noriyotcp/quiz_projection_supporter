@@ -14,12 +14,27 @@
       </b-card>
 
       <div class="qAnswerArea">
-        <b-card>
-          <p class="card-text" />
+        <b-card
+          :class="[isDisplayAnotherAnswers ? 'qAnswerCard-AnotherAnswer' : 'qAnswerCard-WoAnotherAnswer']"
+          :style="{ backgroundColor: qBackgroundColor }"
+        >
+          <p
+            class="card-text"
+            :style="{ fontSize: qAnswerFontSize + 'px', color: qStringColor }"
+          >
+            {{ qAnswer }}
+          </p>
         </b-card>
 
-        <b-card class="qAnotherAnswerCard">
-          <p class="card-text">
+        <b-card
+          v-if="isDisplayAnotherAnswers"
+          class="qAnotherAnswerCard"
+          :style="{ backgroundColor: qBackgroundColor }"
+        >
+          <p
+            class="card-text"
+            :style="{ fontSize: qAnotherAnswerFontSize + 'px', color: qStringColor }"
+          >
             {{ qAnotherAnswer }}
           </p>
         </b-card>

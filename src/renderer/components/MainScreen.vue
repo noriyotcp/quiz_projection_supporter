@@ -152,7 +152,10 @@
     <div class="container">
       <!-- QuestionID選択ダイアログ -->
       <!-- <select-question-id-dialog @onOkClicked="onSelectQuestionIdDialogOk"></select-question-id-dialog> -->
-      <display-confirm-dialog :qData=candidateQuizData @onOkClicked="onDisplayConfirmDialogOk"></display-confirm-dialog>
+      <display-confirm-dialog
+        :q-data="candidateQuizData"
+        @onOkClicked="onDisplayConfirmDialogOk"
+      />
       <!-- 問題ファイルインポートダイアログ -->
       <import-quiz-data-dialog @onOkClicked="onImportQuizDialogOk" />
 
