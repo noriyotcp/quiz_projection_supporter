@@ -57,7 +57,8 @@
     "bootstrap-vue": "^2.0.0-rc.28",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "xlsx-populate": "^1.20.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
