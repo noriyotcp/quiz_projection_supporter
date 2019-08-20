@@ -30,13 +30,19 @@
 
 <script>
 export default {
-  props: ['qId'],
   data () {
     return {
+      qId: '',
       qText: '',
       qAnswer: '',
       qAnotherAnswer: '',
-      isDisplayAnotherAnswers: false
+      isDisplayAnotherAnswers: false,
+      isDisplayQId: false,
+      qTextFontSize: 50,
+      qAnswerFontSize: 40,
+      qAnotherAnswerFontSize: 40,
+      qStringColor: '#000000',
+      qBackgroundColor: '#ffffff'
     }
   },
   mounted: function () {

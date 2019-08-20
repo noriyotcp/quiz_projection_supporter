@@ -75,7 +75,6 @@
 
       <div class="row justify-content-center buttonArea">
         <div class="col-3">
-          <!-- TODO: click handler -->
           <b-button
             size="lg"
             variant="outline-secondary"
@@ -153,7 +152,7 @@
     <div class="container">
       <!-- QuestionID選択ダイアログ -->
       <!-- <select-question-id-dialog @onOkClicked="onSelectQuestionIdDialogOk"></select-question-id-dialog> -->
-      <!-- <display-confirm-dialog :qData=candidateQuizData @onOkClicked="onImportQuizDataDialog"></display-confirm-dialog> -->
+      <display-confirm-dialog :qData=candidateQuizData @onOkClicked="onDisplayConfirmDialogOk"></display-confirm-dialog>
       <!-- 問題ファイルインポートダイアログ -->
       <import-quiz-data-dialog @onOkClicked="onImportQuizDialogOk" />
 
@@ -170,6 +169,7 @@
 <script>
 import QuestionCard from './MainScreen/QuestionCard'
 
+import DisplayConfirmDialog from './MainScreen/DisplayConfirmDialog'
 import ImportQuizDataDialog from './MainScreen/ImportQuizDataDialog'
 
 import NotificationDialog from './MainScreen/NotificationDialog'
@@ -179,7 +179,7 @@ import QuizDataUtil from '../logic/QuizDataUtil'
 
 export default {
   name: 'MainScreen',
-  components: { QuestionCard, ImportQuizDataDialog, NotificationDialog },
+  components: { QuestionCard, ImportQuizDataDialog, NotificationDialog, DisplayConfirmDialog },
   data () {
     return {
       pjWindow: null,
@@ -239,6 +239,10 @@ export default {
     onNotificationDialogOk () {
       // ダイアログ表示用メッセージ変数をリセットしておく
       this.dialogMsg = ''
+    },
+    onDisplayConfirmDialogOk () {
+      this.displayedQuizData = this.candidateQuizData
+      this.sendMessageToPjWindow('displayQuizData', this.displayedQuizData)
     },
     onImportQuizDialogOk (res) {
       QuizDataUtil.createQuizDatas(res.path, res.pass).then((quizDatas) => {
