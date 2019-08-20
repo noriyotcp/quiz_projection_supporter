@@ -18,9 +18,18 @@
 <script>
 export default {
   props: {
-    title: String,
-    qData: Object,
-    qTextSummary: String
+    title: {
+      type: String,
+      required: true
+    },
+    qData: {
+      type: Object,
+      required: true
+    },
+    qTextSummary: {
+      type: String,
+      required: true
+    }
   },
   data () {
     return {

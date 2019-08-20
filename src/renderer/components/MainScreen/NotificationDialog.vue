@@ -13,7 +13,10 @@
 <script>
 export default {
   props: {
-    message: String
+    message: {
+      type: String,
+      required: true
+    }
   },
   onOkClicked () {
     this.$emit('onOkClicked')

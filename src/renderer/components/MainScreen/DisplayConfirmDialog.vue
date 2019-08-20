@@ -15,7 +15,10 @@
 <script>
 export default {
   props: {
-    qData: Object
+    qData: {
+      type: Object,
+      required: true
+    }
   },
   computed: {
     quizData: function () {

@@ -153,6 +153,7 @@
     <div class="container">
       <!-- QuestionID選択ダイアログ -->
       <select-question-id-dialog @onOkClicked="onSelectQuestionIdDialogOk" />
+      <!-- 投影確認ダイアログ -->
       <display-confirm-dialog
         :q-data="candidateQuizData"
         @onOkClicked="onDisplayConfirmDialogOk"
@@ -160,8 +161,10 @@
       <!-- 問題ファイルインポートダイアログ -->
       <import-quiz-data-dialog @onOkClicked="onImportQuizDialogOk" />
       <!-- 投影画面設定ダイアログ -->
-      <projection-setting-dialog @onSizeChanged="onPjSettingDialogFontSizeChange"
-      @onColorChanged="onPjSettingDialogColorChange" />
+      <projection-setting-dialog
+        @onSizeChanged="onPjSettingDialogFontSizeChange"
+        @onColorChanged="onPjSettingDialogColorChange"
+      />
       <!-- メッセージ通知ダイアログ -->
       <notification-dialog
         ref="notificationDialogComponent"
