@@ -9,7 +9,7 @@
           class="card-text"
           :style="{ fontSize: qTextFontSize + 'px', color: qStringColor }"
         >
-          {{ (this.isDisplayQId && qId !== '') ? `【${qId}】` : '' }}{{ qText }}
+          {{ (isDisplayQId && qId !== '') ? `【${qId}】` : '' }}{{ qText }}
         </p>
       </b-card>
 
