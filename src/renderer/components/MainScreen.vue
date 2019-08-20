@@ -159,7 +159,9 @@
       />
       <!-- 問題ファイルインポートダイアログ -->
       <import-quiz-data-dialog @onOkClicked="onImportQuizDialogOk" />
-
+      <!-- 投影画面設定ダイアログ -->
+      <projection-setting-dialog @onSizeChanged="onPjSettingDialogFontSizeChange"
+      @onColorChanged="onPjSettingDialogColorChange" />
       <!-- メッセージ通知ダイアログ -->
       <notification-dialog
         ref="notificationDialogComponent"
@@ -172,11 +174,10 @@
 
 <script>
 import QuestionCard from './MainScreen/QuestionCard'
-
+import SelectQuestionIdDialog from './MainScreen/SelectQuestionIdDialog'
 import DisplayConfirmDialog from './MainScreen/DisplayConfirmDialog'
 import ImportQuizDataDialog from './MainScreen/ImportQuizDataDialog'
-import SelectQuestionIdDialog from './MainScreen/SelectQuestionIdDialog'
-
+import ProjectionSettingDialog from './MainScreen/ProjectionSettingDialog'
 import NotificationDialog from './MainScreen/NotificationDialog'
 
 import WindowUtil from '../logic/WindowUtil'
@@ -184,7 +185,7 @@ import QuizDataUtil from '../logic/QuizDataUtil'
 
 export default {
   name: 'MainScreen',
-  components: { QuestionCard, ImportQuizDataDialog, NotificationDialog, DisplayConfirmDialog, SelectQuestionIdDialog },
+  components: { QuestionCard, ImportQuizDataDialog, NotificationDialog, DisplayConfirmDialog, SelectQuestionIdDialog, ProjectionSettingDialog },
   data () {
     return {
       pjWindow: null,
@@ -275,6 +276,12 @@ export default {
         console.error(error)
         this.showNotificationDialog('インポートに失敗しました')
       })
+    },
+    onPjSettingDialogFontSizeChange (res) {
+      this.sendMessageToPjWindow('fontSizeChange', res)
+    },
+    onPjSettingDialogColorChange (res) {
+      this.sendMessageToPjWindow('colorChange', res)
     },
     sendMessageToPjWindow (channel, arg) {
       if (this.pjWindow != null) {

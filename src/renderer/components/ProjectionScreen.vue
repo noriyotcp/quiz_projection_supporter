@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import JsonFileUtil from '../logic/JsonFileUtil'
+
 export default {
   data () {
     return {
@@ -59,6 +61,9 @@ export default {
       qStringColor: '#000000',
       qBackgroundColor: '#ffffff'
     }
+  },
+  created: function () {
+    this.loadSetting()
   },
   mounted: function () {
     const ipc = this.$electron.ipcRenderer
@@ -81,6 +86,30 @@ export default {
     ipc.on('isDisplayQId', (event, arg) => {
       this.isDisplayQId = arg
     })
+    ipc.on('fontSizeChange', (event, arg) => {
+      this.qTextFontSize = arg.qTextFontSize
+      this.qAnswerFontSize = arg.qAnswerFontSize
+      this.qAnotherAnswerFontSize = arg.qAnotherAnswerFontSize
+    })
+    ipc.on('colorChange', (event, arg) => {
+      this.qStringColor = arg.qStringColor
+      this.qBackgroundColor = arg.qBackgroundColor
+    })
+  },
+  methods: {
+    loadSetting () {
+      JsonFileUtil.loadFile('pjSetting').then(data => {
+        if (data !== null) {
+          this.qTextFontSize = data.qTextFontSize
+          this.qAnswerFontSize = data.qAnswerFontSize
+          this.qAnotherAnswerFontSize = data.qAnotherAnswerFontSize
+          this.qStringColor = data.qStringColor
+          this.qBackgroundColor = data.qBackgroundColor
+        }
+      }).catch(err => {
+        console.error(err)
+      })
+    }
   }
 }
 </script>
