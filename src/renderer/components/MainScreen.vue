@@ -151,18 +151,35 @@
     </div>
 
     <div class="container">
-      <!-- TODO dialogs -->
+      <!-- QuestionID選択ダイアログ -->
+      <!-- <select-question-id-dialog @onOkClicked="onSelectQuestionIdDialogOk"></select-question-id-dialog> -->
+      <!-- <display-confirm-dialog :qData=candidateQuizData @onOkClicked="onImportQuizDataDialog"></display-confirm-dialog> -->
+      <!-- 問題ファイルインポートダイアログ -->
+      <import-quiz-data-dialog @onOkClicked="onImportQuizDialogOk" />
+
+      <!-- メッセージ通知ダイアログ -->
+      <notification-dialog
+        ref="notificationDialogComponent"
+        :message="dialogMsg"
+        @onOkClicked="onNotificationDialogOk"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import QuestionCard from './MainScreen/QuestionCard'
+
+import ImportQuizDataDialog from './MainScreen/ImportQuizDataDialog'
+
+import NotificationDialog from './MainScreen/NotificationDialog'
+
 import WindowUtil from '../logic/WindowUtil'
+import QuizDataUtil from '../logic/QuizDataUtil'
 
 export default {
   name: 'MainScreen',
-  components: { QuestionCard },
+  components: { QuestionCard, ImportQuizDataDialog, NotificationDialog },
   data () {
     return {
       pjWindow: null,
@@ -197,6 +214,31 @@ export default {
         this.pjWindow.close()
         this.pjWindow = null
       }
+    },
+    updateQuizSelectCards () {
+      this.candidateQuizData = QuizDataUtil.getQuizDataByIdx(this.quizDatas, this.currentQuizDataIdx)
+      this.nextQuizData = QuizDataUtil.getQuizDataByIdx(this.quizDatas, this.currentQuizDataIdx + 1)
+      this.prevQuezData = QuizDataUtil.getQuizDataByIdx(this.quizDatas, this.currentQuizDataIdx - 1)
+    },
+    showNotificationDialog (message) {
+      this.dialogMsg = message
+      // NotificationDialog 内の Modal component を参照している
+      this.$refs.notificationDialogComponent.$refs.modal.show()
+    },
+    onNotificationDialogOk () {
+      // ダイアログ表示用メッセージ変数をリセットしておく
+      this.dialogMsg = ''
+    },
+    onImportQuizDialogOk (res) {
+      QuizDataUtil.createQuizDatas(res.path, res.pass).then((quizDatas) => {
+        this.quizDatas = quizDatas
+        this.currentQuizDataIdx = 0
+        this.updateQuizSelectCards()
+        this.showNotificationDialog('インポートが完了しました')
+      }).catch((error) => {
+        console.error(error)
+        this.showNotificationDialog('インポートに失敗しました')
+      })
     },
     sendMessageToPjWindow (channel, arg) {
       if (this.pjWindow != null) {
