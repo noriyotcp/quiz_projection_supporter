@@ -152,7 +152,7 @@
 
     <div class="container">
       <!-- QuestionID選択ダイアログ -->
-      <!-- <select-question-id-dialog @onOkClicked="onSelectQuestionIdDialogOk"></select-question-id-dialog> -->
+      <select-question-id-dialog @onOkClicked="onSelectQuestionIdDialogOk"></select-question-id-dialog>
       <display-confirm-dialog
         :q-data="candidateQuizData"
         @onOkClicked="onDisplayConfirmDialogOk"
@@ -175,6 +175,7 @@ import QuestionCard from './MainScreen/QuestionCard'
 
 import DisplayConfirmDialog from './MainScreen/DisplayConfirmDialog'
 import ImportQuizDataDialog from './MainScreen/ImportQuizDataDialog'
+import SelectQuestionIdDialog from './MainScreen/SelectQuestionIdDialog'
 
 import NotificationDialog from './MainScreen/NotificationDialog'
 
@@ -183,11 +184,11 @@ import QuizDataUtil from '../logic/QuizDataUtil'
 
 export default {
   name: 'MainScreen',
-  components: { QuestionCard, ImportQuizDataDialog, NotificationDialog, DisplayConfirmDialog },
+  components: { QuestionCard, ImportQuizDataDialog, NotificationDialog, DisplayConfirmDialog, SelectQuestionIdDialog },
   data () {
     return {
       pjWindow: null,
-      quizData: null,
+      quizDatas: null,
       currentQuizDataIdx: 0,
       displayedQuizData: null,
       candidateQuizData: null,
@@ -248,6 +249,13 @@ export default {
     onDisplayConfirmDialogOk () {
       this.displayedQuizData = this.candidateQuizData
       this.sendMessageToPjWindow('displayQuizData', this.displayedQuizData)
+    },
+    onSelectQuestionIdDialogOk (newQId) {
+      const idx = QuizDataUtil.getQuizDatasIdxByQId(this.quizDatas, newQId)
+      if (idx !== -1) {
+        this.currentQuizDataIdx = idx
+        this.updateQuizSelectCards()
+      }
     },
     onImportQuizDialogOk (res) {
       QuizDataUtil.createQuizDatas(res.path, res.pass).then((quizDatas) => {

@@ -71,15 +71,12 @@ export default class QuizDataUtil {
   }
 
   static getQuizDatasIdxByQId (quizDatas, qId) {
-    let newIdx = 0
-    for (const quizData of quizDatas) {
-      if (qId === quizData.qId.toString()) {
-        return newIdx
-      }
-      newIdx++
-    }
-    // 見つからなかった場合
-    return -1
+    // quizDatas 内の要素から qId のみを取り出した配列を作る
+    // その際 qId から '.' を取り除く
+    const qIds = quizDatas.map(quizData => quizData.qId.replace(/\.?/g, ''))
+    // 引数 qId とマッチした文字列のインデックスを返す
+    // 見つからなければ -1 を返す
+    return qIds.indexOf(qId)
   }
 
   static getNextIdx (quizDatas, currentIdx, isLoop) {
