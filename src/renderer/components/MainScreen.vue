@@ -152,7 +152,7 @@
 
     <div class="container">
       <!-- QuestionID選択ダイアログ -->
-      <select-question-id-dialog @onOkClicked="onSelectQuestionIdDialogOk"></select-question-id-dialog>
+      <select-question-id-dialog @onOkClicked="onSelectQuestionIdDialogOk" />
       <display-confirm-dialog
         :q-data="candidateQuizData"
         @onOkClicked="onDisplayConfirmDialogOk"
@@ -203,6 +203,9 @@ export default {
   watch: {
     isDisplayAnotherAnswers: function () {
       this.sendMessageToPjWindow('isDisplayAnotherAnswers', this.isDisplayAnotherAnswers)
+    },
+    isDisplayQId: function () {
+      this.sendMessageToPjWindow('isDisplayQId', this.isDisplayQId)
     }
   },
   methods: {

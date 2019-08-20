@@ -9,7 +9,7 @@
           class="card-text"
           :style="{ fontSize: qTextFontSize + 'px', color: qStringColor }"
         >
-          {{ qText }}
+          {{ (this.isDisplayQId && qId !== '') ? `【${qId}】` : '' }}{{ qText }}
         </p>
       </b-card>
 
@@ -77,6 +77,9 @@ export default {
     })
     ipc.on('isDisplayAnotherAnswers', (event, arg) => {
       this.isDisplayAnotherAnswers = arg
+    })
+    ipc.on('isDisplayQId', (event, arg) => {
+      this.isDisplayQId = arg
     })
   }
 }
