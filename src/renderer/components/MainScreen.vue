@@ -200,6 +200,11 @@ export default {
       dialogMsg: null
     }
   },
+  watch: {
+    isDisplayAnotherAnswers: function () {
+      this.sendMessageToPjWindow('isDisplayAnotherAnswers', this.isDisplayAnotherAnswers)
+    }
+  },
   methods: {
     onClickProjectionScreenLink () {
       if (this.pjWindow == null) {

@@ -75,6 +75,9 @@ export default {
         this.qAnotherAnswer = ''
       }
     })
+    ipc.on('isDisplayAnotherAnswers', (event, arg) => {
+      this.isDisplayAnotherAnswers = arg
+    })
   }
 }
 </script>
