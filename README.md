@@ -1,22 +1,30 @@
-# quiz_projection_supporter
+# Quiz Projection Supporter
 
-> Quiz Projection Supporter
+## これは
+技術書典6で頒布された『[実践で学ぶ！Electron+Vue.jsでデスクトップアプリ開発](https://booth.pm/ja/items/1317888)』の電子書籍版を元に作成したアプリです
 
-#### Build Setup
+詳しくはこちらのリポジトリをご覧ください
+https://github.com/nano-nano/quiz_projection_supporter
+
+問題文や解答を表示させるには、指定フォーマットの Excel ファイルが必要です。このリポジトリには含めていません
+
+詳しくは上記リポジトリの `quiz_sample_from_STU.xlsx` をご覧ください
+
+## Build Setup
 
 ``` bash
 # install dependencies
-npm install
+npm install / yarn
 
 # serve with hot reload at localhost:9080
-npm run dev
+npm run dev / yarn dev
 
 # build electron application for production
-npm run build
+npm run build / yarn build
 
 
 # lint all JS/Vue component files in `src/`
-npm run lint
+npm run lint / yarn lint
 
 ```
 
