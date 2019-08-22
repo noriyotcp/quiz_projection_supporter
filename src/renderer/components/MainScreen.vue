@@ -59,7 +59,7 @@
 
         <div class="col-6 align-self-center">
           <question-card
-            tile="表示候補"
+            title="表示候補"
             :q-data="candidateQuizData"
           />
         </div>
